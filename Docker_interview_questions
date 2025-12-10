@@ -1,0 +1,161 @@
+🟦 TOP 15 DOCKER INTERVIEW QUESTIONS + PERFECT ANSWERS
+
+(QUESTIONS IN BOLD + CAPITAL)
+
+1. WHAT IS DOCKER AND WHY DID YOU USE IT IN YOUR PROJECT?
+
+Answer:
+Docker is a tool that lets you package your application along with its dependencies, system tools, and environment configuration into a lightweight container.
+I used Docker so my Python application runs the same everywhere — on my laptop, on a server, or in the cloud — without installing Python, cron, or libraries manually.
+
+2. WHAT IS A DOCKERFILE?
+
+Answer:
+A Dockerfile is a script that contains step-by-step instructions to build a Docker image.
+It defines:
+
+Which base image to use
+
+What dependencies to install
+
+What files to copy
+
+What commands to run
+
+I wrote a Dockerfile with a multi-stage build, installed cron, set UTC timezone, and exposed port 8080.
+
+3. WHAT IS A DOCKER IMAGE?
+
+Answer:
+A Docker image is a read-only template created from the Dockerfile.
+It contains the entire application environment.
+It’s like a recipe.
+
+4. WHAT IS A DOCKER CONTAINER?
+
+Answer:
+A container is a running instance of an image.
+It behaves like a small, isolated machine that runs only my application and its dependencies.
+
+5. WHY DID YOU USE A MULTI-STAGE DOCKER BUILD?
+
+Answer:
+To keep my final image lightweight.
+In the first stage, I installed Python dependencies.
+In the second stage, I copied only the necessary runtime files.
+This reduces the image size and improves security and performance.
+
+6. WHAT BASE IMAGE DID YOU USE AND WHY?
+
+Answer:
+I used python:3.11-slim because it is lightweight and production-friendly.
+It reduces image size and improves startup time.
+
+7. HOW DID YOU INSTALL OS-LEVEL DEPENDENCIES LIKE CRON?
+
+Answer:
+Inside the Dockerfile, I ran:
+
+apt-get update
+apt-get install -y cron tzdata
+
+
+This installed the cron daemon and timezone tools inside the container.
+
+8. HOW DID YOU SET THE TIMEZONE TO UTC INSIDE DOCKER?
+
+Answer:
+I set:
+
+ENV TZ=UTC
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+echo "UTC" > /etc/timezone
+
+
+This ensures all logs and cron jobs run in consistent UTC time.
+
+9. HOW DID YOU SCHEDULE CRON JOBS INSIDE THE CONTAINER?
+
+Answer:
+I copied a cron file into the container:
+
+COPY cron/my-cron-job .
+RUN chmod 0644 my-cron-job && crontab my-cron-job
+
+
+Then I started cron with:
+
+CMD cron && python api_server.py
+
+10. WHY DID YOU EXPOSE PORT 8080?
+
+Answer:
+My Python API server runs on port 8080 inside the container.
+To allow external access, I used:
+
+EXPOSE 8080
+
+
+And while running:
+
+docker run -p 8080:8080 my-app
+
+11. WHAT ARE DOCKER VOLUMES, AND WHY DID YOU CREATE /DATA AND /CRON?
+
+Answer:
+Volumes store data outside the container so it isn't deleted when the container stops.
+I created volumes:
+
+VOLUME ["/data", "/cron"]
+
+
+These store:
+
+/data → application data
+
+/cron → logs or backup files created by cron
+
+12. HOW DO YOU BUILD A DOCKER IMAGE?
+
+Answer:
+In VS Code terminal:
+
+docker build -t my-app .
+
+13. HOW DO YOU RUN YOUR CONTAINER?
+
+Answer:
+
+docker run -p 8080:8080 -v data-vol:/data -v cron-vol:/cron my-app
+
+14. WHAT PROBLEM DOES DOCKER SOLVE FOR YOUR PROJECT?
+
+Answer:
+Docker solved:
+
+“works on my machine” issues
+
+dependency conflicts
+
+environment setup problems
+
+deployment complexity
+
+It gave me a consistent, repeatable environment.
+
+15. WHAT CHALLENGES DID YOU FACE WHILE CREATING THE DOCKERFILE?
+
+Answer:
+Challenges:
+
+Running cron inside the container
+
+Setting timezone correctly
+
+Copying Python dependencies from the builder stage
+
+Keeping final image small
+
+Starting both cron + API server together
+
+I solved these using multi-stage builds, environment variables, and CMD commands.
