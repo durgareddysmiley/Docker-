@@ -46,7 +46,7 @@ docker --version
 
 🔹 PULL IMAGE
 
-docker pull nginx
+docker pull nginx -- It just shows the image and didnt run anything 
 
 
 🔹 LIST IMAGES
