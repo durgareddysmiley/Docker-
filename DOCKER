@@ -1,2 +1,97 @@
-Docker
+DOCKER
 Docker is a containerization platform that enables applications to run in isolated containers that share the host OS, making them fast, lightweight, and portable.
+
+SIMPLY TO UNDERSTAND == Instead of creating a new Virtual Machine every time, we create ONE Docker environment, and inside it we create many containers. This takes less time and fewer resources.
+
+2️⃣ WHY DOCKER WAS INTRODUCED? (Very important)
+
+Docker was introduced to solve Virtual Machine problems.
+
+PROBLEMS WITH VMS:
+
+Heavy (full OS every time)
+
+Slow startup
+
+High memory & CPU usage
+
+Difficult to scale
+
+Docker Solution:
+
+Shares host OS
+
+Very fast startup
+
+Less resource usage
+
+Easy scaling
+
+3️⃣ Virtual Machine vs Docker (Interview table)
+Feature	       Virtual Machine	      Docker
+OS	              Own OS             Shares host OS
+Size	             GBs	                  MBs
+Startup	         Minutes	             Seconds
+Performance	     Slower	                Faster
+Resource usage	 High	                   Low
+Isolation	       Strong	                Light
+Portability	     Limited	                High
+
+7️⃣ MUST-REMEMBER DOCKER COMMANDS (INTERVIEW CORE)
+
+🔹 CHECK DOCKER
+
+docker --version
+
+
+🔹 PULL IMAGE
+
+docker pull nginx
+
+
+🔹 LIST IMAGES
+
+docker images
+
+
+🔹 RUN CONTAINER (MOST IMPORTANT)
+
+docker run -d -p 8080:80 nginx
+
+
+🔹 LIST CONTAINERS
+
+docker ps
+docker ps -a
+
+
+🔹 STOP CONTAINER
+
+docker stop <container_id>
+
+
+🔹 REMOVE CONTAINER
+
+docker rm <container_id>
+
+
+🔹 REMOVE IMAGE
+
+docker rmi <image_id>
+
+
+🔹 BUILD IMAGE
+
+docker build -t myapp .
+
+
+🔹 EXECUTE INSIDE CONTAINER
+
+docker exec -it <container_id> bash
+
+8️⃣ TOP 5 COMMANDS (MEMORIZE ONLY THESE IF TIME IS LOW)
+docker pull
+docker run
+docker ps
+docker stop
+docker build
